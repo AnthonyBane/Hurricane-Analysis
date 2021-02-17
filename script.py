@@ -35,6 +35,9 @@ hurricanes = {}
 # dictionary of hurricanes keyed by year
 hurricanes_by_year = {}
 
+# dictionary of affected areas by count
+hurricane_count_by_area = {}
+
 
 """ Function to convert damages from string to float type"""
 
@@ -98,7 +101,19 @@ def convert_hurricanes_to_year_key(hurricanes):
 
     return hurricanes_by_year
 
-# write your count affected areas function here:
+
+""" Function to count how many areas are affected """
+
+
+def count_areas(hurricanes):
+    area_list = {}
+    for hurricane in hurricanes:
+        for area in hurricanes[hurricane]["Areas Affected"]:
+            if area not in area_list:
+                area_list[area] = 1
+            else:
+                area_list[area] += 1
+    return area_list
 
 
 # write your find most affected area function here:
@@ -120,3 +135,4 @@ updated_damages = update_damages(damages)
 hurricanes = create_hurricane_dictionary(
     names, months, years, max_sustained_winds, areas_affected, damages, deaths)
 hurricanes_by_year = convert_hurricanes_to_year_key(hurricanes)
+hurricane_area_count = count_areas(hurricanes)
