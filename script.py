@@ -40,6 +40,7 @@ most_affected_area = ""  # stores most affected area
 most_affected_count = 0  # stores count of most affected area
 most_lethal_hurricane = ""  # stores most lethal hurriance
 most_deaths = 0  # stores most lethal hurricane's kill count
+hurricane_categories = {}  # dictionary of hurricanes categorised by lethality
 
 
 """ Function to convert damages from string to float type"""
@@ -151,8 +152,35 @@ def find_most_deaths(hurricanes):
     return most_lethal_hurricane, most_deaths
 
 
-# write your greatest number of deaths function here:
+""" Function to categorise the lethality of hurricanes """
 
+
+def categorise_hurricanes(hurricanes):
+
+    hurricane_categories = {0: [], 1: [], 2: [], 3: [], 4: []}
+    mortality_scale = {0: 0,
+                       1: 100,
+                       2: 500,
+                       3: 1000,
+                       4: 10000}
+
+    for hurricane in hurricanes:
+        if hurricanes[hurricane]["Deaths"] >= mortality_scale[4]:
+            hurricane_categories[4].append(hurricane)
+
+        elif hurricanes[hurricane]["Deaths"] >= mortality_scale[3]:
+            hurricane_categories[3].append(hurricane)
+
+        elif hurricanes[hurricane]["Deaths"] >= mortality_scale[2]:
+            hurricane_categories[2].append(hurricane)
+
+        elif hurricanes[hurricane]["Deaths"] >= mortality_scale[1]:
+            hurricane_categories[1].append(hurricane)
+
+        else:
+            hurricane_categories[0].append(hurricane)
+
+    return hurricane_categories
 
 # write your catgeorize by mortality function here:
 
@@ -171,3 +199,4 @@ hurricane_area_count = count_areas(hurricanes)
 most_affected_area, most_affected_count = find_most_affected_area(
     hurricane_area_count)
 most_lethal_hurricane, most_deaths = find_most_deaths(hurricanes)
+hurricane_categories = categorise_hurricanes(hurricanes)
