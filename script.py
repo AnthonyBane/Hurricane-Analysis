@@ -32,6 +32,9 @@ deaths = [90, 4000, 16, 3103, 179, 184, 408, 682, 5, 1023, 43, 319, 688, 259, 37
 # dictionary of hurricanes: key = name, value = dictionaries of hurricane data
 hurricanes = {}
 
+# dictionary of hurricanes keyed by year
+hurricanes_by_year = {}
+
 
 """ Function to convert damages from string to float type"""
 
@@ -65,19 +68,35 @@ def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas
     hurricanes = {}
     for storm in range(len(names)):
         hurricanes[names[storm]] = {
-            "Name: ": names[storm],
-            "Month: ": months[storm],
-            "Year: ": years[storm],
-            "Max Sustained Wind: ": max_sustained_winds[storm],
-            "Areas Affected: ": areas_affected[storm],
-            "Damage Caused: ": damages[storm],
-            "Deaths: ": deaths[storm]
+            "Name": names[storm],
+            "Month": months[storm],
+            "Year": years[storm],
+            "Max Sustained Wind": max_sustained_winds[storm],
+            "Areas Affected": areas_affected[storm],
+            "Damage Caused": damages[storm],
+            "Deaths": deaths[storm]
         }
 
     return hurricanes
 
-# write your construct hurricane by year dictionary function here:
 
+""" Function to key hurricanes dictionary year  """
+
+
+def convert_hurricanes_to_year_key(hurricanes):
+    hurricanes_by_year = {}
+    for storm in hurricanes:
+        """ Takes hurricane position storm and key "Year" as current year.
+        Then compares it against current keys, if not match, add, if match, append"""
+        current_year = hurricanes[storm]["Year"]
+        current_hurricane = hurricanes[storm]
+
+        if current_year not in hurricanes_by_year:
+            hurricanes_by_year[current_year] = [current_hurricane]
+        else:
+            hurricanes_by_year[current_year].append(current_hurricane)
+
+    return hurricanes_by_year
 
 # write your count affected areas function here:
 
@@ -100,3 +119,4 @@ def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas
 updated_damages = update_damages(damages)
 hurricanes = create_hurricane_dictionary(
     names, months, years, max_sustained_winds, areas_affected, damages, deaths)
+hurricanes_by_year = convert_hurricanes_to_year_key(hurricanes)
