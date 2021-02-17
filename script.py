@@ -22,19 +22,26 @@ areas_affected = [['Central America', 'Mexico', 'Cuba', 'Florida', 'The Bahamas'
 damages = ['Damages not recorded', '100M', 'Damages not recorded', '40M', '27.9M', '5M', 'Damages not recorded', '306M', '2M', '65.8M', '326M', '60.3M', '208M', '1.42B', '25.4M',
            'Damages not recorded', '1.54B', '1.24B', '7.1B', '10B', '26.5B', '6.2B', '5.37B', '23.3B', '1.01B', '125B', '12B', '29.4B', '1.76B', '720M', '15.1B', '64.8B', '91.6B', '25.1B']
 
+# list to hold damages converted from string to float
+updated_damages = []
+
 # deaths for each hurricane
 deaths = [90, 4000, 16, 3103, 179, 184, 408, 682, 5, 1023, 43, 319, 688, 259, 37, 11,
           2068, 269, 318, 107, 65, 19325, 51, 124, 17, 1836, 125, 87, 45, 133, 603, 138, 3057, 74]
 
-# Function to convert damages from string to float type
+# dictionary of hurricanes: key = name, value = dictionaries of hurricane data
+hurricanes = {}
 
-updated_damages = []
+
+""" Function to convert damages from string to float type"""
 
 
 def update_damages(toChange):
 
     conversionFactor = {"M": 1000000, "B": 1000000000}
-
+    updated_damages = []
+    # For each item, take the string minus M or B and multiply by the conversion factor
+    # Save/append to updated_damages
     for item in toChange:
         if ("M" in item):
             updated_damages.append(
@@ -48,14 +55,26 @@ def update_damages(toChange):
         else:
             updated_damages.append("Damages not recorded.")
 
-    return
+    return updated_damages
 
 
-update_damages(damages)
+""" Function to create a dictionary of hurricane data key = name, value = data """
 
-print(updated_damages)
-# write your construct hurricane dictionary function here:
 
+def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, damages, deaths):
+    hurricanes = {}
+    for storm in range(len(names)):
+        hurricanes[names[storm]] = {
+            "Name: ": names[storm],
+            "Month: ": months[storm],
+            "Year: ": years[storm],
+            "Max Sustained Wind: ": max_sustained_winds[storm],
+            "Areas Affected: ": areas_affected[storm],
+            "Damage Caused: ": damages[storm],
+            "Deaths: ": deaths[storm]
+        }
+
+    return hurricanes
 
 # write your construct hurricane by year dictionary function here:
 
@@ -76,3 +95,8 @@ print(updated_damages)
 
 
 # write your catgeorize by damage function here:
+
+
+updated_damages = update_damages(damages)
+hurricanes = create_hurricane_dictionary(
+    names, months, years, max_sustained_winds, areas_affected, damages, deaths)
