@@ -38,6 +38,8 @@ updated_damages = []  # list to hold damages converted from string to float
 hurricane_count_by_area = {}  # dictionary of affected areas by count
 most_affected_area = ""  # stores most affected area
 most_affected_count = 0  # stores count of most affected area
+most_lethal_hurricane = ""  # stores most lethal hurriance
+most_deaths = 0  # stores most lethal hurricane's kill count
 
 
 """ Function to convert damages from string to float type"""
@@ -132,7 +134,21 @@ def find_most_affected_area(hurricane_area_count):
 
     return most_affected_area, most_affected_count
 
-# write your find most affected area function here:
+
+""" Function to find most lethal hurricane """
+
+
+def find_most_deaths(hurricanes):
+
+    most_lethal_hurricane = ""
+    most_deaths = 0
+
+    for hurricane in hurricanes:
+        if hurricanes[hurricane]["Deaths"] > most_deaths:
+            most_lethal_hurricane = hurricane
+            most_deaths = hurricanes[hurricane]["Deaths"]
+
+    return most_lethal_hurricane, most_deaths
 
 
 # write your greatest number of deaths function here:
@@ -154,3 +170,4 @@ hurricanes_by_year = convert_hurricanes_to_year_key(hurricanes)
 hurricane_area_count = count_areas(hurricanes)
 most_affected_area, most_affected_count = find_most_affected_area(
     hurricane_area_count)
+most_lethal_hurricane, most_deaths = find_most_deaths(hurricanes)
