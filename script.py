@@ -1,4 +1,5 @@
 # names of hurricanes
+from unittest.test.testmock.support import is_instance
 names = ['Cuba I', 'San Felipe II Okeechobee', 'Bahamas', 'Cuba II', 'CubaBrownsville', 'Tampico', 'Labor Day', 'New England', 'Carol', 'Janet', 'Carla', 'Hattie', 'Beulah', 'Camille',
          'Edith', 'Anita', 'David', 'Allen', 'Gilbert', 'Hugo', 'Andrew', 'Mitch', 'Isabel', 'Ivan', 'Emily', 'Katrina', 'Rita', 'Wilma', 'Dean', 'Felix', 'Matthew', 'Irma', 'Maria', 'Michael']
 
@@ -41,6 +42,8 @@ most_affected_count = 0  # stores count of most affected area
 most_lethal_hurricane = ""  # stores most lethal hurriance
 most_deaths = 0  # stores most lethal hurricane's kill count
 hurricane_categories = {}  # dictionary of hurricanes categorised by lethality
+most_damaging_hurricane = ""  # stores most damaging hurricane
+most_damage_cost = 0  # stores most damaging hurricanes cost
 
 
 """ Function to convert damages from string to float type"""
@@ -71,7 +74,7 @@ def update_damages(toChange):
 """ Function to create a dictionary of hurricane data key = name, value = data """
 
 
-def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, damages, deaths):
+def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, updated_damages, deaths):
     hurricanes = {}
     for storm in range(len(names)):
         hurricanes[names[storm]] = {
@@ -80,7 +83,7 @@ def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas
             "Year": years[storm],
             "Max Sustained Wind": max_sustained_winds[storm],
             "Areas Affected": areas_affected[storm],
-            "Damage Caused": damages[storm],
+            "Damage Caused": updated_damages[storm],
             "Deaths": deaths[storm]
         }
 
@@ -182,6 +185,23 @@ def categorise_hurricanes(hurricanes):
 
     return hurricane_categories
 
+
+""" Function to locate most damaging hurricane """
+
+
+def find_most_damaging_hurricane(hurricanes):
+
+    most_damaging_hurricane = ""
+    most_damage_cost = 0
+
+    for hurricane in hurricanes:
+        if isinstance(hurricanes[hurricane]["Damage Caused"], float) == True:
+            if hurricanes[hurricane]["Damage Caused"] > most_damage_cost:
+                most_damaging_hurricane = hurricane
+                most_damage_cost = hurricanes[hurricane]["Damage Caused"]
+
+    return most_damaging_hurricane, most_damage_cost
+
 # write your catgeorize by mortality function here:
 
 
@@ -193,10 +213,12 @@ def categorise_hurricanes(hurricanes):
 
 updated_damages = update_damages(damages)
 hurricanes = create_hurricane_dictionary(
-    names, months, years, max_sustained_winds, areas_affected, damages, deaths)
+    names, months, years, max_sustained_winds, areas_affected, updated_damages, deaths)
 hurricanes_by_year = convert_hurricanes_to_year_key(hurricanes)
 hurricane_area_count = count_areas(hurricanes)
 most_affected_area, most_affected_count = find_most_affected_area(
     hurricane_area_count)
 most_lethal_hurricane, most_deaths = find_most_deaths(hurricanes)
 hurricane_categories = categorise_hurricanes(hurricanes)
+most_damaging_hurricane, most_damage_cost = find_most_damaging_hurricane(
+    hurricanes)
