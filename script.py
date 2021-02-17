@@ -1,5 +1,6 @@
 # names of hurricanes
 from unittest.test.testmock.support import is_instance
+import string
 names = ['Cuba I', 'San Felipe II Okeechobee', 'Bahamas', 'Cuba II', 'CubaBrownsville', 'Tampico', 'Labor Day', 'New England', 'Carol', 'Janet', 'Carla', 'Hattie', 'Beulah', 'Camille',
          'Edith', 'Anita', 'David', 'Allen', 'Gilbert', 'Hugo', 'Andrew', 'Mitch', 'Isabel', 'Ivan', 'Emily', 'Katrina', 'Rita', 'Wilma', 'Dean', 'Felix', 'Matthew', 'Irma', 'Maria', 'Michael']
 
@@ -41,10 +42,11 @@ most_affected_area = ""  # stores most affected area
 most_affected_count = 0  # stores count of most affected area
 most_lethal_hurricane = ""  # stores most lethal hurriance
 most_deaths = 0  # stores most lethal hurricane's kill count
-hurricane_categories = {}  # dictionary of hurricanes categorised by lethality
+# dictionary of hurricanes categorised by lethality
+hurricane_categories_by_lethality = {}
 most_damaging_hurricane = ""  # stores most damaging hurricane
 most_damage_cost = 0  # stores most damaging hurricanes cost
-
+hurricane_categories_by_cost = {}  # hurricanes by cost categories
 
 """ Function to convert damages from string to float type"""
 
@@ -158,7 +160,7 @@ def find_most_deaths(hurricanes):
 """ Function to categorise the lethality of hurricanes """
 
 
-def categorise_hurricanes(hurricanes):
+def categorise_hurricanes_mortality(hurricanes):
 
     hurricane_categories = {0: [], 1: [], 2: [], 3: [], 4: []}
     mortality_scale = {0: 0,
@@ -202,10 +204,40 @@ def find_most_damaging_hurricane(hurricanes):
 
     return most_damaging_hurricane, most_damage_cost
 
-# write your catgeorize by mortality function here:
+
+""" Function to categorise hurricanes by their cost """
 
 
-# write your greatest damage function here:
+def categorise_hurricanes_by_cost(hurricanes):
+
+    hurricane_categories = {0: [], 1: [], 2: [], 3: [], 4: []}
+    damage_scale = {0: 0,
+                    1: 100000000,
+                    2: 1000000000,
+                    3: 10000000000,
+                    4: 50000000000}
+
+    for hurricane in hurricanes:
+
+        if isinstance(hurricanes[hurricane]["Damage Caused"], str):
+            hurricane_categories[0].append(hurricane)
+
+        elif hurricanes[hurricane]["Damage Caused"] >= damage_scale[4]:
+            hurricane_categories[4].append(hurricane)
+
+        elif hurricanes[hurricane]["Damage Caused"] >= damage_scale[3]:
+            hurricane_categories[3].append(hurricane)
+
+        elif hurricanes[hurricane]["Damage Caused"] >= damage_scale[2]:
+            hurricane_categories[2].append(hurricane)
+
+        elif hurricanes[hurricane]["Damage Caused"] >= damage_scale[1]:
+            hurricane_categories[1].append(hurricane)
+
+        else:
+            hurricane_categories[0].append(hurricane)
+
+    return hurricane_categories
 
 
 # write your catgeorize by damage function here:
@@ -219,6 +251,7 @@ hurricane_area_count = count_areas(hurricanes)
 most_affected_area, most_affected_count = find_most_affected_area(
     hurricane_area_count)
 most_lethal_hurricane, most_deaths = find_most_deaths(hurricanes)
-hurricane_categories = categorise_hurricanes(hurricanes)
+hurricane_categories_by_lethality = categorise_hurricanes_mortality(hurricanes)
 most_damaging_hurricane, most_damage_cost = find_most_damaging_hurricane(
     hurricanes)
+hurricane_categories_by_cost = categorise_hurricanes_by_cost(hurricanes)
