@@ -1,6 +1,7 @@
+""" A script to implement the Hurricane Analysis project by Codecademy
+    during the Data Analyst/Scientist course """
+
 # names of hurricanes
-from unittest.test.testmock.support import is_instance
-import string
 names = ['Cuba I', 'San Felipe II Okeechobee', 'Bahamas', 'Cuba II', 'CubaBrownsville', 'Tampico', 'Labor Day', 'New England', 'Carol', 'Janet', 'Carla', 'Hattie', 'Beulah', 'Camille',
          'Edith', 'Anita', 'David', 'Allen', 'Gilbert', 'Hugo', 'Andrew', 'Mitch', 'Isabel', 'Ivan', 'Emily', 'Katrina', 'Rita', 'Wilma', 'Dean', 'Felix', 'Matthew', 'Irma', 'Maria', 'Michael']
 
@@ -240,7 +241,7 @@ def categorise_hurricanes_by_cost(hurricanes):
     return hurricane_categories
 
 
-# write your catgeorize by damage function here:
+""" Below is the code to run the functions. There is no output or formatting on purpose. """
 
 
 updated_damages = update_damages(damages)
